@@ -1,0 +1,55 @@
+import java.net.InetSocketAddress;
+import java.nio.channels.AsynchronousSocketChannel;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.Scanner;
+
+public class SentinelPortScanner {
+
+   
+    private static final int[] MAIN_PORTS = {21, 22, 23, 25, 53, 80, 110, 139, 143, 445};
+
+    public static void main(String[] args) {
+     
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Escolha o intervalo de portas para teste:");
+        System.out.println("(1) Escanear todas as portas de 1 a 1024");
+        System.out.println("(2) Escanear as principais portas (21, 22, 445, etc.)");
+        System.out.print("Sua escolha: ");
+
+        int choice = scanner.nextInt();
+        String ip = "192.168.0.17";
+        int timeout = 2000; 
+
+        switch (choice) {
+            case 1:
+                System.out.println("Iniciando varredura em 1 a 1024...");
+                for (int port = 1; port <= 1024; port++) {
+                    scanPort(ip, port, timeout);
+                }
+                break;
+            case 2:
+                System.out.println("Iniciando varredura das portas principais...");
+                for (int port : MAIN_PORTS) {
+                    scanPort(ip, port, timeout);
+                }
+                break;
+            default:
+                System.out.println("Opção inválida. O programa será encerrado.");
+                break;
+        }
+
+        scanner.close();
+    }
+
+    public static void scanPort(String ip, int port, int timeout) {
+        try (AsynchronousSocketChannel channel = AsynchronousSocketChannel.open()) {
+            Future<Void> future = channel.connect(new InetSocketAddress(ip, port));
+            future.get(timeout, TimeUnit.MILLISECONDS);
+            System.out.println("Porta " + port + " está ABERTA!");
+        } catch (Exception e) {
+            System.err.println("Porta " + port + " está FECHADA ou fora do tempo limite.");
+        }
+    }
+}
