@@ -1,0 +1,64 @@
+nde Começar: Criando o Scanner Básico
+O seu primeiro objetivo é criar um script ou programa em Java que seja capaz de fazer três coisas:
+
+Ler uma lista de IPs e portas.
+Tentar se conectar a cada IP e porta.
+Determinar se a porta está aberta ou fechada.
+Para isso, você vai precisar de uma forma de lidar com múltiplas conexões ao mesmo tempo, sem que uma conexão lenta bloqueie as outras. A solução em Java para isso é a programação assíncrona usando o java.nio (New I/O).
+Passo a Passo para o Primeiro Código
+
+1. Configurar o Projeto
+Você pode usar o Maven ou o Gradle para gerenciar o seu projeto. Eles são a forma padrão de gerenciar dependências e automatizar a construção de projetos Java.
+Usando o Maven:
+Crie um projeto Maven simples e adicione uma classe principal.
+
+2. Código do Scanner Básico
+O código abaixo é um exemplo simplificado de como fazer a varredura assíncrona de portas. Ele mostra a estrutura básica que você precisa para começar.
+
+
+Java
+
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.channels.AsynchronousSocketChannel;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+
+public class BasicPortScanner {
+
+    public static void main(String[] args) {
+        String ip = "127.0.0.1"; // Para começar, vamos escanear o seu próprio computador.
+        int timeout = 2000; // Tempo limite para a conexão (2 segundos)
+
+        for (int port = 1; port <= 1024; port++) {
+            scanPort(ip, port, timeout);
+        }
+    }
+
+    public static void scanPort(String ip, int port, int timeout) {
+        try (AsynchronousSocketChannel channel = AsynchronousSocketChannel.open()) {
+            Future<Void> future = channel.connect(new InetSocketAddress(ip, port));
+            
+            // Tenta se conectar dentro do tempo limite
+            future.get(timeout, TimeUnit.MILLISECONDS);
+
+            System.out.println("Port " + port + " is OPEN!");
+        } catch (Exception e) {
+            // A exceção significa que a conexão falhou ou expirou (porta fechada)
+            // Para não poluir o console, vamos imprimir só a mensagem de sucesso.
+        }
+    }
+}
+
+
+O que o código faz:
+Ele usa AsynchronousSocketChannel, que permite tentar conectar a uma porta sem travar a execução do programa.
+future.get(timeout, TimeUnit.MILLISECONDS) é o ponto-chave. Ele tenta obter o resultado da conexão, mas se o tempo limite for excedido (a porta estiver fechada ou bloqueada), ele lança uma exceção.
+O try-with-resources garante que o canal de conexão seja fechado automaticamente.
+Próximos Passos Imediatos
+Execute o código: Compile e execute este código simples. Veja se ele consegue identificar as portas abertas no seu próprio computador.
+Adicione um range de IPs: Modifique o código para que ele possa ler uma faixa de IPs (por exemplo, 192.168.1.1 até 192.168.1.254).
+Melhore a saída: Em vez de apenas imprimir, armazene os resultados (IP, porta, status) em uma estrutura de dados, como uma lista de objetos ScanResult. Isso será útil para a próxima fase.
+Este é o ponto de partida perfeito. É simples, focado e te dará a base para construir o motor do Sentinel.
+
+O que você acha? Podemos evoluir a partir deste esqueleto básico?
