@@ -6,39 +6,24 @@ O diferencial é que ele não apenas encontra dispositivos abertos, mas também 
 Roadmap de Desenvolvimento Focado em Pentest
 Fase 1: Análise e Design (MVP de Pentest)
 Em vez de focar apenas em portas abertas, o Project Sentinel vai se concentrar em:
-
 Identificação de Serviços Vulneráveis: Sua ferramenta deve ter um banco de dados de assinaturas de softwares e suas vulnerabilidades conhecidas (CVEs). Por exemplo, se ela encontrar um servidor Apache 2.4.6, ela já deve sinalizar que essa versão tem vulnerabilidades.
-
 Análise de Banners com Contexto de Segurança: Seu scanner não só coleta o banner de um serviço, mas também procura por informações sensíveis, como nomes de usuário, senhas em texto puro ou configurações de sistemas que não deveriam estar expostas.
-
 Visualização de Relatórios: O maior diferencial para um pentester é o tempo. Em vez de simplesmente dar uma lista de resultados, sua plataforma deve gerar um relatório claro. O relatório pode incluir:
-
 Um "score" de risco.
-
 Uma lista de vulnerabilidades encontradas.
-
 Sugestões de comandos para testar a vulnerabilidade (ex: nmap -sV --script vulners <IP>).
 
 Fase 2: Desenvolvimento do Core
 Módulo de Escaneamento Focado: O scanner vai ser mais "inteligente". Em vez de escanear todas as portas, ele vai focar nas mais comuns para vulnerabilidades (21, 22, 23, 80, 443, 8080, etc.). Ele também deve ter a capacidade de escanear por faixas de IP ou domínios específicos, que é o que um pentester faz.
-
 Integração com Bancos de Dados de Vulnerabilidades: Você pode integrar seu sistema com APIs de bancos de dados de vulnerabilidades públicos, como o NVD (National Vulnerability Database) ou o Vulners. Isso automatizará a detecção de vulnerabilidades conhecidas.
-
 Crie uma Interface de Usuário Intuitiva: Aqui é onde você atrai os curiosos. A interface precisa ser limpa, com gráficos e relatórios visuais. Um "dashboard de segurança" mostrando os riscos e as vulnerabilidades em um mapa ou lista é muito mais atraente do que uma tela de terminal.
 
 Fase 3: Operação e Monetização
 Modelo Fremium: Ofereça uma versão gratuita limitada. O usuário pode fazer um número pequeno de buscas por dia ou escanear apenas um IP por vez. Isso atrai iniciantes e curiosos, que podem se converter em clientes pagantes.
-
 Planos de Assinatura Profissionais: Ofereça planos mais robustos para pentesters e analistas de segurança, com funcionalidades como:
-
 Buscas ilimitadas.
-
 Relatórios exportáveis em PDF.
-
 Notificações de novas vulnerabilidades encontradas em IPs monitorados.
-
 Marketing Estratégico: Crie conteúdo educativo. Vídeos no YouTube, tutoriais e artigos de blog que mostrem como sua ferramenta pode ser usada para encontrar falhas reais e, assim, atrair tanto os profissionais quanto os novos talentos.
-
 Você tem a base técnica para construir o motor de busca. A inovação virá da sua capacidade de transformar os dados brutos em inteligência acionável para um profissional de segurança. A chave para competir com os gigantes não é ter mais dados, mas sim ter os dados certos, apresentados da maneira certa.
-
 Você acha que essa abordagem de focar na "inteligência de vulnerabilidades" ao invés de apenas na "coleta de dados" é o caminho certo para o seu produto?
